@@ -122,7 +122,7 @@ sentry__crashpad_backend_flush_scope(
 #if defined(SENTRY_PLATFORM_LINUX) || defined(SENTRY_PLATFORM_WINDOWS)
 #    ifdef SENTRY_PLATFORM_WINDOWS
 static bool
-sentry__crashpad_handler(EXCEPTION_POINTERS *UNUSED(ExceptionInfo))
+sentry__crashpad_handler(EXCEPTION_POINTERS *ExceptionInfo)
 {
 #    else
 static bool
@@ -140,8 +140,8 @@ sentry__crashpad_handler(int UNUSED(signum), siginfo_t *UNUSED(info),
         sentry_value_t event = sentry_value_new_event();
         if (options->before_send_func) {
             SENTRY_TRACE("invoking `before_send` hook");
-            event = options->before_send_func(
-                event, NULL, options->before_send_data);
+            event = options->before_send_func(event, (void *)0xDEAD,
+                /*options->before_send_data*/ (void *)ExceptionInfo);
         }
         sentry_value_decref(event);
 
