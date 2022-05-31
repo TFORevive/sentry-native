@@ -8,6 +8,7 @@ CMakeSettings.json
 /build*
 leak-build
 unit-build
+/install
 
 # Run files
 .sentry-native
