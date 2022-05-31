@@ -53,6 +53,11 @@ else()
 	set(SENTRY_LIBRARY_TYPE STATIC)
 endif()
 
+option(SENTRY_EXTERNAL_ALLOCATOR "Don't link default allocator functions if ON, let the program you're linking with define those" OFF)
+if(SENTRY_EXTERNAL_ALLOCATOR)
+	target_compile_definitions(sentry PRIVATE SENTRY_EXTERNAL_ALLOCATOR)
+endif()
+
 option(SENTRY_PIC "Build sentry (and dependent) libraries as position independent libraries" ON)
 
 option(SENTRY_BUILD_TESTS "Build sentry-native tests" "${SENTRY_MAIN_PROJECT}")
