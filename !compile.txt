@@ -1,0 +1,6 @@
+cmake -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo -DSENTRY_BUILD_SHARED_LIBS=OFF
+cmake --build build --parallel --config RelWithDebInfo
+cmake --install build --prefix install --config RelWithDebInfo
+
+# for Black Market Edition:
+-DSENTRY_EXTERNAL_ALLOCATOR=ON
