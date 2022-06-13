@@ -32,9 +32,13 @@
 #ifndef MPACK_H
 #define MPACK_H 1
 
-#define MPACK_MALLOC sentry_malloc
-#define MPACK_REALLOC sentry_realloc
-#define MPACK_FREE sentry_free
+#ifdef SENTRY_EXTERNAL_ALLOCATOR
+// TFO for some reason crashes when those are defined on the other hand, it does
+// not make any sense but whatever
+#    define MPACK_MALLOC sentry_malloc
+#    define MPACK_REALLOC sentry_realloc
+#    define MPACK_FREE sentry_free
+#endif
 
 #define MPACK_AMALGAMATED 1
 
@@ -1436,11 +1440,10 @@ MPACK_EXTERN_C_BEGIN
 #                        define MPACK_STATIC_ASSERT(expr, str)                 \
                             do {                                               \
                                 _Pragma("GCC diagnostic push")                 \
-                                    _Pragma(MPACK_IGNORE_PEDANTIC)             \
-                                        _Pragma("GCC diagnostic ignored "      \
-                                                "\"-Wc++-"                     \
-                                                "compat\"") _Static_assert(    \
-                                            expr, str);                        \
+                                    _Pragma(MPACK_IGNORE_PEDANTIC) _Pragma(    \
+                                        "GCC diagnostic ignored "              \
+                                        "\"-Wc++-"                             \
+                                        "compat\"") _Static_assert(expr, str); \
                                 _Pragma("GCC diagnostic pop")                  \
                             } while (0)
 #                    endif
