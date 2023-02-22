@@ -479,6 +479,18 @@ if(SENTRY_BACKEND_CRASHPAD)
 			DESTINATION "${CMAKE_INSTALL_CMAKEDIR}"
 		)
 		if(WIN32 AND MSVC)
+
+			sentry_install(FILES "$<TARGET_FILE_DIR:crashpad_client>/crashpad_client.pdb" DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+			sentry_install(FILES "$<TARGET_FILE_DIR:crashpad_compat>/crashpad_compat.pdb" DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+			sentry_install(FILES "$<TARGET_FILE_DIR:crashpad_getopt>/crashpad_getopt.pdb" DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+			sentry_install(FILES "$<TARGET_FILE_DIR:crashpad_handler_lib>/crashpad_handler_lib.pdb" DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+			sentry_install(FILES "$<TARGET_FILE_DIR:crashpad_minidump>/crashpad_minidump.pdb" DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+			sentry_install(FILES "$<TARGET_FILE_DIR:crashpad_snapshot>/crashpad_snapshot.pdb" DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+			sentry_install(FILES "$<TARGET_FILE_DIR:crashpad_tools>/crashpad_tools.pdb" DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+			sentry_install(FILES "$<TARGET_FILE_DIR:crashpad_util>/crashpad_util.pdb" DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+			sentry_install(FILES "$<TARGET_FILE_DIR:crashpad_zlib>/crashpad_zlib.pdb" DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+			sentry_install(FILES "$<TARGET_FILE_DIR:mini_chromium>/mini_chromium.pdb" DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+
 			sentry_install(FILES $<TARGET_PDB_FILE:crashpad_handler>
 				DESTINATION "${CMAKE_INSTALL_BINDIR}" OPTIONAL)
 			if (CRASHPAD_WER_ENABLED)
@@ -548,6 +560,9 @@ write_basic_package_version_file(sentry-config-version.cmake
 	VERSION ${SENTRY_VERSION}
 	COMPATIBILITY SameMajorVersion)
 
+if(WIN32 AND MSVC)
+	sentry_install(FILES "$<TARGET_FILE_DIR:sentry>/sentry.pdb" DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+endif()
 sentry_install(TARGETS sentry EXPORT sentry
 	ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
 	LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
